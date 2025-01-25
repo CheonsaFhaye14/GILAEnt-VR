@@ -1,6 +1,7 @@
 import * as THREE from './three.js-master/build/three.module.js';
 import { VRButton } from './three.js-master/examples/jsm/webxr/VRButton.js';
 import { GLTFLoader } from './three.js-master/examples/jsm/loaders/GLTFLoader.js';
+import { EXRLoader } from './three.js-master/examples/jsm/loaders/EXRLoader.js';
 
 // Create the scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -20,6 +21,21 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White direc
 directionalLight.position.set(5, 5, 5); // Position the light to illuminate the scene
 scene.add(directionalLight);
 
+// Load the EXR sky background
+const exrLoader = new EXRLoader();
+exrLoader.load('assets/kloofendal_48d_partly_cloudy_puresky_4k.exr', (texture) => {
+    texture.mapping = THREE.EquirectangularRefractionMapping;
+    texture.encoding = THREE.RGBEEncoding; // Make sure the texture encoding is set correctly
+    texture.needsUpdate = true; // Ensure the texture is updated
+
+    // Optional: Apply a tone mapping or exposure correction
+    const exposure = 1.0; // Adjust exposure if needed
+    texture.exposure = exposure;
+
+    scene.background = texture;
+    scene.environment = texture;
+});
+
 // Load the GLTF model
 const loader = new GLTFLoader();
 let eagleModel;
@@ -30,8 +46,8 @@ loader.load(
         eagleModel = gltf.scene; // Store the loaded model
         scene.add(eagleModel); // Add the model to the scene
 
-        // Center the model by adjusting its position
-        eagleModel.position.set(0, 0, -5); // Center it in front of the camera
+        // Center the model by adjusting its position (bring it closer)
+        eagleModel.position.set(0, 0, -2); // Bring it closer (z = -2)
 
         // Scale the model if needed
         eagleModel.scale.set(0.5, 0.5, 0.5); // Scale the model
@@ -44,6 +60,7 @@ loader.load(
         console.error('An error occurred while loading the model:', error);
     }
 );
+
 
 // Animation loop
 function animate() {
