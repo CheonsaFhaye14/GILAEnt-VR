@@ -102,6 +102,12 @@ function animate() {
         }
     }
 
+    // WebXR camera movement handling (head tracking)
+    if (renderer.xr.isPresenting) {
+        // Adjust camera movement here if needed for VR mode
+        // The camera automatically moves with the user's head, so you can focus on interactions
+    }
+
     renderer.render(scene, camera);
 }
 animate();
