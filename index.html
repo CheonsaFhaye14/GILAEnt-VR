@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GILAEnt VR</title>
+    <title>Three.js VR Example</title>
     <style>
         body { margin: 0; overflow: hidden; }
         canvas { display: block; }
     </style>
 </head>
 <body>
+    <style>
+        #logo {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          width: 100px; /* Adjust size as needed */
+          height: auto;
+          z-index: 10; /* Ensure the logo is above the 3D canvas */
+        }
+      </style>
+      <img id="logo" src="assets/logo.png" alt="Logo" />
+      
     <script type="module" src="index.js"></script> <!-- Reference the external JS file -->
 </body>
 </html>
